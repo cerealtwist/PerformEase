@@ -11,7 +11,14 @@ type Karyawan struct {
 	Nama string
 }
 
+type Pekerjaan struct {
+	KaryawanID int
+	Tipe       int
+	Durasi     int
+}
+
 var arrKaryawan [NMAX]Karyawan
+var arrPekerjaan []Pekerjaan
 
 // Main Menu
 func mainMenu() {
