@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Main Menu
 func mainMenu() {
 	var choice int
 
@@ -35,6 +36,7 @@ func mainMenu() {
 	}
 }
 
+// Submenu Karyawan
 func menuKaryawan() {
 	var choice int
 
@@ -48,6 +50,25 @@ func menuKaryawan() {
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
+		fmt.Scan(&choice)
+
+	}
+}
+
+func menuLogPekerjaan() {
+	var choice int
+
+	for {
+		fmt.Println("======================================")
+		fmt.Println("Kelola Log Pekerjaan Karyawan")
+		fmt.Println("======================================")
+		fmt.Println("1. Tambah Log Pekerjaan Karyawan")
+		fmt.Println("2. Ubah Log Pekerjaan Karyawan")
+		fmt.Println("3. Hapus Log Pekerjaan Karyawan")
+		fmt.Println("0. Main Menu")
+		fmt.Println("======================================")
+
+		fmt.Scan(&choice)
 	}
 }
 
