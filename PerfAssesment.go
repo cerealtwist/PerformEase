@@ -68,6 +68,18 @@ func menuKaryawan() {
 
 		fmt.Scan(&choice)
 
+		if choice == 1 {
+			// to add
+		} else if choice == 2 {
+			// to update
+		} else if choice == 3 {
+			// to delete
+		} else if choice == 0 {
+			break
+		} else {
+			fmt.Println("Pilihan Invalid.")
+		}
+
 	}
 }
 
