@@ -24,9 +24,9 @@ func mainMenu() {
 		if choice == 1 {
 			menuKaryawan()
 		} else if choice == 2 {
-			// to Log
+			menuLogPekerjaan()
 		} else if choice == 3 {
-			// to Rekap
+			menuRekap()
 		} else if choice == 0 {
 			break // break (exit program)
 		} else {
@@ -65,6 +65,23 @@ func menuLogPekerjaan() {
 		fmt.Println("1. Tambah Log Pekerjaan Karyawan")
 		fmt.Println("2. Ubah Log Pekerjaan Karyawan")
 		fmt.Println("3. Hapus Log Pekerjaan Karyawan")
+		fmt.Println("0. Main Menu")
+		fmt.Println("======================================")
+
+		fmt.Scan(&choice)
+	}
+}
+
+func menuRekap() {
+	var choice int
+
+	for {
+		fmt.Println("======================================")
+		fmt.Println("Lihat Rekap Data")
+		fmt.Println("======================================")
+		fmt.Println("1. Lihat Rekap Log Pekerjaan Karyawan")
+		fmt.Println("2. Lihat Rekap Pekerjaan per Tipe")
+		fmt.Println("3. Lihat Rekap Aktivitas Berdasarkan Durasi")
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
