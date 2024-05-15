@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-const NMAX int = 10 // blm pasti pake atau enggak, just keep it this way dulu dah
+const NMAX int = 4 // blm pasti pake atau enggak, just keep it this way dulu dah
 
 type Karyawan struct {
 	ID   int
@@ -12,13 +12,11 @@ type Karyawan struct {
 }
 
 type Pekerjaan struct {
-	KaryawanID int
-	Tipe       int
-	Durasi     int
+	KaryawanID, Tipe, Durasi int
 }
 
-var arrKaryawan [NMAX]Karyawan
-var arrPekerjaan []Pekerjaan
+type arrKaryawan [NMAX]Karyawan
+type arrPekerjaan []Pekerjaan
 
 // Main Menu
 func mainMenu() {
@@ -54,7 +52,8 @@ func mainMenu() {
 
 // Submenu Karyawan
 func menuKaryawan() {
-	var choice int
+	var choice, n int
+	var A arrKaryawan
 
 	for {
 		fmt.Println("======================================")
@@ -69,7 +68,7 @@ func menuKaryawan() {
 		fmt.Scan(&choice)
 
 		if choice == 1 {
-			// to add
+			addKaryawan(&A, &n)
 		} else if choice == 2 {
 			// to update
 		} else if choice == 3 {
@@ -115,6 +114,23 @@ func menuRekap() {
 
 		fmt.Scan(&choice)
 	}
+}
+
+// BAGIAN CRUD KARYAWAN
+
+func addKaryawan(A *arrKaryawan, n *int) {
+	var Nama string
+
+	if *n >= NMAX {
+		fmt.Println("Jumlah karyawan mencapai batas.")
+		return
+	}
+
+	fmt.Print("Masukkan nama karyawan: ")
+	fmt.Scan(&Nama)
+
+	A[*n] = Karyawan{ID: *n + 1, Nama: Nama}
+	*n++
 }
 
 func main() {
