@@ -4,6 +4,15 @@ import (
 	"fmt"
 )
 
+const NMAX int = 10 // blm pasti pake atau enggak, just keep it this way dulu dah
+
+type Karyawan struct {
+	ID   int
+	Nama string
+}
+
+var arrKaryawan [NMAX]Karyawan
+
 // Main Menu
 func mainMenu() {
 	var choice int
