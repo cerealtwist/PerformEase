@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-const NMAX int = 4 // blm pasti pake atau enggak, just keep it this way dulu dah
+const NMAX int = 3 // blm pasti pake atau enggak, just keep it this way dulu dah
 
 type Karyawan struct {
 	ID   int
@@ -71,7 +71,7 @@ func menuKaryawan() {
 		if choice == 1 {
 			addKaryawan(&A, &n)
 		} else if choice == 2 {
-			// to update
+			updateKaryawan(&A, &n)
 		} else if choice == 3 {
 			// to delete
 		} else if choice == 4 {
@@ -134,6 +134,26 @@ func addKaryawan(A *arrKaryawan, n *int) {
 
 	A[*n] = Karyawan{ID: *n + 1, Nama: Nama}
 	*n++
+}
+
+func updateKaryawan(A *arrKaryawan, n *int) {
+	var ID int
+	var newNama string
+
+	fmt.Print("Masukkan ID karyawan:")
+	fmt.Scan(&ID)
+
+	for i := 0; i < *n; i++ {
+		if A[i].ID == ID {
+			fmt.Print("Masukkan Nama Baru: ")
+			fmt.Scan(&newNama)
+			A[i].Nama = newNama
+			fmt.Println("Nama terupdate.")
+		} else {
+			fmt.Println("Karyawan tidak ditemukan.")
+			break // keluar dari loop
+		}
+	}
 }
 
 func showListKaryawan(A arrKaryawan, n int) {
