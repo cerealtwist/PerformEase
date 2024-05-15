@@ -62,6 +62,7 @@ func menuKaryawan() {
 		fmt.Println("1. Add Data Karyawan")
 		fmt.Println("2. Update Data Karyawan")
 		fmt.Println("3. Delete Data Karyawan")
+		fmt.Println("4. Show List Karyawan") // Buat testing aja ngecek apakah data karyawan masuk
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
@@ -73,6 +74,8 @@ func menuKaryawan() {
 			// to update
 		} else if choice == 3 {
 			// to delete
+		} else if choice == 4 {
+			showListKaryawan(A, n)
 		} else if choice == 0 {
 			break
 		} else {
@@ -133,6 +136,21 @@ func addKaryawan(A *arrKaryawan, n *int) {
 	*n++
 }
 
+func showListKaryawan(A arrKaryawan, n int) {
+	fmt.Println("======================================")
+	fmt.Println("List Karyawan:")
+	fmt.Println("======================================")
+	if n == 0 {
+		fmt.Println("Tidak ada karyawan.")
+	} else {
+		for i := 0; i < n; i++ {
+			fmt.Printf("ID: %d, Nama: %s\n", A[i].ID, A[i].Nama)
+		}
+	}
+	fmt.Println("======================================")
+}
+
+// PROGRAM MAIN
 func main() {
 	mainMenu()
 }
