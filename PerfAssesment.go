@@ -156,7 +156,24 @@ func updateKaryawan(A *arrKaryawan, n *int) {
 }
 
 func deleteKaryawan(A *arrKaryawan, n *int) {
+	var ID int
 
+	fmt.Print("Masukkan ID karyawan:")
+	fmt.Scan(&ID)
+
+	for i := 0; i < *n; i++ {
+		if A[i].ID == ID {
+			// geser elemen ke kiri utk overwrite elemen terhapus.
+			for j := i; j < *n-1; j++ {
+				A[j] = A[j+1]
+				A[j].ID = j + 1
+			}
+			*n--
+			fmt.Println("Karyawan dihapus.")
+			return
+		}
+	}
+	fmt.Println("Karyawan tidak ditemukan.")
 }
 
 func showListKaryawan(A arrKaryawan, n int) {
