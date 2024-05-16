@@ -18,12 +18,17 @@ type Pekerjaan struct {
 type arrKaryawan [NMAX]Karyawan
 type arrPekerjaan []Pekerjaan
 
+// PROGRAM MAIN
+func main() {
+	mainMenu()
+}
+
 // Main Menu
 func mainMenu() {
 	var choice int
 
 	for {
-		fmt.Println("======================================")
+		fmt.Println("\n======================================")
 		fmt.Println("Employee Performance Assesment")
 		fmt.Println("======================================")
 		fmt.Println("1. Kelola Data Karyawan")
@@ -56,7 +61,7 @@ func menuKaryawan() {
 	var A arrKaryawan
 
 	for {
-		fmt.Println("======================================")
+		fmt.Println("\n======================================")
 		fmt.Println("Kelola Data Karyawan")
 		fmt.Println("======================================")
 		fmt.Println("1. Add Data Karyawan")
@@ -89,7 +94,7 @@ func menuLogPekerjaan() {
 	var choice int
 
 	for {
-		fmt.Println("======================================")
+		fmt.Println("\n======================================")
 		fmt.Println("Kelola Log Pekerjaan Karyawan")
 		fmt.Println("======================================")
 		fmt.Println("1. Tambah Log Pekerjaan Karyawan")
@@ -106,7 +111,7 @@ func menuRekap() {
 	var choice int
 
 	for {
-		fmt.Println("======================================")
+		fmt.Println("\n======================================")
 		fmt.Println("Lihat Rekap Data")
 		fmt.Println("======================================")
 		fmt.Println("1. Lihat Rekap Log Pekerjaan Karyawan")
@@ -177,7 +182,7 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 }
 
 func showListKaryawan(A arrKaryawan, n int) {
-	fmt.Println("======================================")
+	fmt.Println("\n======================================")
 	fmt.Println("List Karyawan:")
 	fmt.Println("======================================")
 	if n == 0 {
@@ -188,9 +193,4 @@ func showListKaryawan(A arrKaryawan, n int) {
 		}
 	}
 	fmt.Println("======================================")
-}
-
-// PROGRAM MAIN
-func main() {
-	mainMenu()
 }
