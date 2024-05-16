@@ -73,7 +73,7 @@ func menuKaryawan() {
 		} else if choice == 2 {
 			updateKaryawan(&A, &n)
 		} else if choice == 3 {
-			// to delete
+			deleteKaryawan(&A, &n)
 		} else if choice == 4 {
 			showListKaryawan(A, n)
 		} else if choice == 0 {
@@ -149,11 +149,14 @@ func updateKaryawan(A *arrKaryawan, n *int) {
 			fmt.Scan(&newNama)
 			A[i].Nama = newNama
 			fmt.Println("Nama terupdate.")
-		} else {
-			fmt.Println("Karyawan tidak ditemukan.")
-			break // keluar dari loop
+			return
 		}
 	}
+	fmt.Println("Karyawan tidak ditemukan.")
+}
+
+func deleteKaryawan(A *arrKaryawan, n *int) {
+
 }
 
 func showListKaryawan(A arrKaryawan, n int) {
