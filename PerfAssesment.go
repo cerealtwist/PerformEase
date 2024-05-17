@@ -4,7 +4,8 @@ import (
 	"fmt"
 )
 
-const NMAX int = 3 // blm pasti pake atau enggak, just keep it this way dulu dah
+const NMAX int = 3       // blm pasti pake atau enggak, just keep it this way dulu dah
+const TotalJAM int = 160 // total jam kerja 160
 
 type Karyawan struct {
 	ID   int
@@ -16,7 +17,7 @@ type Pekerjaan struct {
 }
 
 type arrKaryawan [NMAX]Karyawan
-type arrPekerjaan []Pekerjaan
+type arrPekerjaan [NMAX]Pekerjaan
 
 // PROGRAM MAIN
 func main() {
@@ -139,6 +140,7 @@ func addKaryawan(A *arrKaryawan, n *int) {
 
 	A[*n] = Karyawan{ID: *n + 1, Nama: Nama}
 	*n++
+	fmt.Println("Karyawan berhasil ditambah.")
 }
 
 func updateKaryawan(A *arrKaryawan, n *int) {
@@ -193,4 +195,34 @@ func showListKaryawan(A arrKaryawan, n int) {
 		}
 	}
 	fmt.Println("======================================")
+}
+
+// BAGIAN CRUD KARYAWAN
+
+func addPekerjaan(T *arrPekerjaan, n *int) {
+	var KaryawanID, Tipe, Durasi int
+
+	if *n >= NMAX {
+		fmt.Println("Jumlah log pekerjaan mencapai batas.")
+		return
+	}
+
+	fmt.Print("Masukkan ID karyawan: ")
+	fmt.Scan(&KaryawanID)
+	fmt.Print("Masukkan tipe pekerjaan: ")
+	fmt.Scan(&Tipe)
+	fmt.Print("Masukkan durasi pekerjaan (dalam jam): ")
+	fmt.Scan(&Durasi)
+
+	for i := 0; i < *n; i++ {
+		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe {
+			fmt.Println("Log pekerjaan untuk karyawan ini dan tipe ini sudah ada.")
+			return
+		}
+	}
+
+	T[*n] = Pekerjaan{KaryawanID: KaryawanID, Tipe: Tipe, Durasi: Durasi}
+	*n++
+	fmt.Println("Log pekerjaan berhasil ditambah.")
+
 }
