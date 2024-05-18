@@ -116,7 +116,7 @@ func menuLogPekerjaan() {
 		if choice == 1 {
 			addPekerjaan(&T, &nlog)
 		} else if choice == 2 {
-			// to edit
+			updatePekerjaan(&T, &nlog)
 		} else if choice == 3 {
 			// to delete
 		} else if choice == 4 {
@@ -207,7 +207,7 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 func showListKaryawan(A arrKaryawan, n int) {
 	fmt.Println("\n======================================")
 	fmt.Println("List Karyawan:")
-	fmt.Println("======================================")1
+	fmt.Println("======================================")
 	if n == 0 {
 		fmt.Println("Tidak ada karyawan.")
 	} else {
@@ -216,6 +216,16 @@ func showListKaryawan(A arrKaryawan, n int) {
 		}
 	}
 	fmt.Println("======================================")
+}
+
+// Helper function untuk cek apakah terdapat karyawan dengan id tertentu
+func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
+	for i := 0; i < n; i++ {
+		if A[i].ID == KaryawanID {
+			return true
+		}
+	}
+	return false
 }
 
 // BAGIAN CRUD KARYAWAN
@@ -248,8 +258,28 @@ func addPekerjaan(T *arrPekerjaan, nlog *int) {
 
 }
 
+func updatePekerjaan(T *arrPekerjaan, nlog *int) {
+	var KaryawanID, Tipe, newDurasi int
+
+	fmt.Print("Masukkan ID Karyawan: ")
+	fmt.Scan(&KaryawanID)
+	fmt.Print("Masukkan tipe pekerjaan yang ingin diupdate: ")
+	fmt.Scan(&Tipe)
+
+	for i := 0; i < *nlog; i++ {
+		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe {
+			fmt.Print("Masukkan durasi baru (dalam jam): ")
+			fmt.Scan(&newDurasi)
+			T[i].Durasi = newDurasi
+			fmt.Println("Log berhasil terupdate.")
+			return
+		}
+	}
+	fmt.Println("Log pekerjaan tidak ditemukan.")
+}
+
 func showLogPekerjaan(T arrPekerjaan, nlog int) {
-	fmt.Println("======================================")
+	fmt.Println("\n======================================")
 	fmt.Println("List Log Pekerjaan:")
 	fmt.Println("======================================")
 	if nlog == 0 {
