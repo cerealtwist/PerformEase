@@ -104,10 +104,10 @@ func menuLogPekerjaan() {
 		fmt.Println("\n======================================")
 		fmt.Println("Kelola Log Pekerjaan Karyawan")
 		fmt.Println("======================================")
-		fmt.Println("1. Tambah Log Pekerjaan Karyawan")
-		fmt.Println("2. Ubah Log Pekerjaan Karyawan")
-		fmt.Println("3. Hapus Log Pekerjaan Karyawan")
-		fmt.Println("4. Tampilkan Log Pekerjaan Karyawan")
+		fmt.Println("1. Add Log Pekerjaan Karyawan")
+		fmt.Println("2. Update Log Pekerjaan Karyawan")
+		fmt.Println("3. Delete Log Pekerjaan Karyawan")
+		fmt.Println("4. Show Log Pekerjaan Karyawan")
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
@@ -233,13 +233,20 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 func addPekerjaan(T *arrPekerjaan, nlog *int) {
 	var KaryawanID, Tipe, Durasi int
 
-	if *nlog >= NMAX {
-		fmt.Println("Jumlah log pekerjaan mencapai batas.")
-		return
-	}
+	// if *nlog >= NMAX {
+	// 	fmt.Println("Jumlah log pekerjaan mencapai batas.")
+	// 	return
+	// }
 
 	fmt.Print("Masukkan ID karyawan: ")
 	fmt.Scan(&KaryawanID)
+
+	// Panggil helper function untuk validasi Id karyawan
+	if !findKaryawan(A, n, KaryawanID) {
+		fmt.Println("ID Karyawan tidak ditemukan.")
+		return
+	}
+
 	fmt.Print("Masukkan tipe pekerjaan: ")
 	fmt.Scan(&Tipe)
 	fmt.Print("Masukkan durasi pekerjaan (dalam jam): ")
