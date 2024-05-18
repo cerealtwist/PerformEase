@@ -120,7 +120,7 @@ func menuLogPekerjaan() {
 		} else if choice == 3 {
 			// to delete
 		} else if choice == 4 {
-			// to show
+			showLogPekerjaan(T, nlog)
 		} else if choice == 0 {
 			break
 		} else {
@@ -207,7 +207,7 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 func showListKaryawan(A arrKaryawan, n int) {
 	fmt.Println("\n======================================")
 	fmt.Println("List Karyawan:")
-	fmt.Println("======================================")
+	fmt.Println("======================================")1
 	if n == 0 {
 		fmt.Println("Tidak ada karyawan.")
 	} else {
@@ -246,4 +246,18 @@ func addPekerjaan(T *arrPekerjaan, nlog *int) {
 	*nlog++
 	fmt.Println("Log pekerjaan berhasil ditambah.")
 
+}
+
+func showLogPekerjaan(T arrPekerjaan, nlog int) {
+	fmt.Println("======================================")
+	fmt.Println("List Log Pekerjaan:")
+	fmt.Println("======================================")
+	if nlog == 0 {
+		fmt.Println("Tidak ada log pekerjaan.")
+	} else {
+		for i := 0; i < nlog; i++ {
+			fmt.Printf("Karyawan ID: %d, Tipe: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Tipe, T[i].Durasi)
+		}
+	}
+	fmt.Println("======================================")
 }
