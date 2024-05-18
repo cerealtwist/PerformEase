@@ -118,7 +118,7 @@ func menuLogPekerjaan() {
 		} else if choice == 2 {
 			updatePekerjaan(&T, &nlog)
 		} else if choice == 3 {
-			// to delete
+			deletePekerjaan(&T, &nlog)
 		} else if choice == 4 {
 			showLogPekerjaan(T, nlog)
 		} else if choice == 0 {
@@ -191,7 +191,7 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 
 	for i := 0; i < *n; i++ {
 		if A[i].ID == ID {
-			// geser elemen ke kiri utk overwrite elemen terhapus.
+			// geser array ke kiri utk overwrite array terhapus.
 			for j := i; j < *n-1; j++ {
 				A[j] = A[j+1]
 				A[j].ID = j + 1
@@ -233,10 +233,10 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 func addPekerjaan(T *arrPekerjaan, nlog *int) {
 	var KaryawanID, Tipe, Durasi int
 
-	// if *nlog >= NMAX {
-	// 	fmt.Println("Jumlah log pekerjaan mencapai batas.")
-	// 	return
-	// }
+	if *nlog >= NMAX {
+		fmt.Println("Jumlah log pekerjaan mencapai batas.")
+		return
+	}
 
 	fmt.Print("Masukkan ID karyawan: ")
 	fmt.Scan(&KaryawanID)
@@ -283,6 +283,35 @@ func updatePekerjaan(T *arrPekerjaan, nlog *int) {
 		}
 	}
 	fmt.Println("Log pekerjaan tidak ditemukan.")
+}
+
+func deletePekerjaan(T *arrPekerjaan, nlog *int) {
+	var KaryawanID, Tipe int
+	var foundIndex int = -1 // variabel utk simpan indeks log entry yang akan dihapus jika ditemukan
+
+	// ARRAY -1 BERARTI INVALID INDEX (sifat array non-negative), BUAT MENGINDIKASIKAN NOT FOUND
+
+	fmt.Print("Enter employee ID: ")
+	fmt.Scan(&KaryawanID)
+	fmt.Print("Enter work type to delete: ")
+	fmt.Scan(&Tipe)
+
+	for i := 0; i < *nlog && foundIndex == -1; i++ {
+		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe {
+			foundIndex = i // jika ditemukan, ubah index sesuai i array
+		}
+	}
+
+	if foundIndex != -1 { // jika foundindex bukan -1 (berarti ditemukan)
+		// geser array ke kiri utk overwrite array terhapus.
+		for j := foundIndex; j < *nlog-1; j++ {
+			T[j] = T[j+1]
+		}
+		*nlog--
+		fmt.Println("Log pekerjaan berhasil dihapus..")
+	} else {
+		fmt.Println("Log pekerjaan tidak ditemukan.")
+	}
 }
 
 func showLogPekerjaan(T arrPekerjaan, nlog int) {
