@@ -23,6 +23,9 @@ type arrPekerjaan [NMAX]Pekerjaan
 var A arrKaryawan
 var n int
 
+var T arrPekerjaan
+var nlog int
+
 // PROGRAM MAIN
 func main() {
 	mainMenu()
@@ -104,10 +107,25 @@ func menuLogPekerjaan() {
 		fmt.Println("1. Tambah Log Pekerjaan Karyawan")
 		fmt.Println("2. Ubah Log Pekerjaan Karyawan")
 		fmt.Println("3. Hapus Log Pekerjaan Karyawan")
+		fmt.Println("4. Tampilkan Log Pekerjaan Karyawan")
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
 		fmt.Scan(&choice)
+
+		if choice == 1 {
+			addPekerjaan(&T, &nlog)
+		} else if choice == 2 {
+			// to edit
+		} else if choice == 3 {
+			// to delete
+		} else if choice == 4 {
+			// to show
+		} else if choice == 0 {
+			break
+		} else {
+			fmt.Println("Pilihan Invalid.")
+		}
 	}
 }
 
@@ -202,10 +220,10 @@ func showListKaryawan(A arrKaryawan, n int) {
 
 // BAGIAN CRUD KARYAWAN
 
-func addPekerjaan(T *arrPekerjaan, n *int) {
+func addPekerjaan(T *arrPekerjaan, nlog *int) {
 	var KaryawanID, Tipe, Durasi int
 
-	if *n >= NMAX {
+	if *nlog >= NMAX {
 		fmt.Println("Jumlah log pekerjaan mencapai batas.")
 		return
 	}
@@ -217,15 +235,15 @@ func addPekerjaan(T *arrPekerjaan, n *int) {
 	fmt.Print("Masukkan durasi pekerjaan (dalam jam): ")
 	fmt.Scan(&Durasi)
 
-	for i := 0; i < *n; i++ {
+	for i := 0; i < *nlog; i++ {
 		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe {
 			fmt.Println("Log pekerjaan untuk karyawan ini dan tipe ini sudah ada.")
 			return
 		}
 	}
 
-	T[*n] = Pekerjaan{KaryawanID: KaryawanID, Tipe: Tipe, Durasi: Durasi}
-	*n++
+	T[*nlog] = Pekerjaan{KaryawanID: KaryawanID, Tipe: Tipe, Durasi: Durasi}
+	*nlog++
 	fmt.Println("Log pekerjaan berhasil ditambah.")
 
 }
