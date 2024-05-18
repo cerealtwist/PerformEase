@@ -19,6 +19,10 @@ type Pekerjaan struct {
 type arrKaryawan [NMAX]Karyawan
 type arrPekerjaan [NMAX]Pekerjaan
 
+// buat global scope agar saat keluar dari submenu tidak terinisialisasi ulang
+var A arrKaryawan
+var n int
+
 // PROGRAM MAIN
 func main() {
 	mainMenu()
@@ -58,8 +62,7 @@ func mainMenu() {
 
 // Submenu Karyawan
 func menuKaryawan() {
-	var choice, n int
-	var A arrKaryawan
+	var choice int
 
 	for {
 		fmt.Println("\n======================================")
