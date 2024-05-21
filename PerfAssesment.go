@@ -4,7 +4,8 @@ import (
 	"fmt"
 )
 
-const NMAX int = 3       // blm pasti pake atau enggak, just keep it this way dulu dah
+const NMAX int = 3
+const NMAXJob int = 1000 // blm pasti pake atau enggak, just keep it this way dulu dah
 const TotalJAM int = 160 // total jam kerja 160
 
 type Karyawan struct {
@@ -17,7 +18,7 @@ type Pekerjaan struct {
 }
 
 type arrKaryawan [NMAX]Karyawan
-type arrPekerjaan [NMAX]Pekerjaan
+type arrPekerjaan [NMAXJob]Pekerjaan
 
 // buat global scope agar saat keluar dari submenu tidak terinisialisasi ulang
 var A arrKaryawan
@@ -33,9 +34,9 @@ func main() {
 
 // Main Menu
 func mainMenu() {
-	var choice int
+	var choice int = -1
 
-	for {
+	for choice == 0 {
 		fmt.Println("\n======================================")
 		fmt.Println("Employee Performance Assesment")
 		fmt.Println("======================================")
@@ -54,8 +55,6 @@ func mainMenu() {
 			menuLogPekerjaan()
 		} else if choice == 3 {
 			menuRekap()
-		} else if choice == 0 {
-			break // break (exit program)
 		} else {
 			fmt.Println("Pilihan Invalid.")
 		}
@@ -89,7 +88,7 @@ func menuKaryawan() {
 		} else if choice == 4 {
 			showListKaryawan(A, n)
 		} else if choice == 0 {
-			break
+			mainMenu()
 		} else {
 			fmt.Println("Pilihan Invalid.")
 		}
@@ -108,7 +107,6 @@ func menuLogPekerjaan() {
 		fmt.Println("2. Update Log Pekerjaan Karyawan")
 		fmt.Println("3. Delete Log Pekerjaan Karyawan")
 		fmt.Println("4. Show All Log Pekerjaan")
-		fmt.Println("5. Show Log Pekerjaan Karyawan (Status)")
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
@@ -122,10 +120,8 @@ func menuLogPekerjaan() {
 			deletePekerjaan(&T, &nlog)
 		} else if choice == 4 {
 			showAllPekerjaan(T, nlog)
-		} else if choice == 5 {
-			showLogKaryawan(T, nlog)
 		} else if choice == 0 {
-			break
+			mainMenu()
 		} else {
 			fmt.Println("Pilihan Invalid.")
 		}
@@ -139,13 +135,24 @@ func menuRekap() {
 		fmt.Println("\n======================================")
 		fmt.Println("Lihat Rekap Data")
 		fmt.Println("======================================")
-		fmt.Println("1. Lihat Rekap Log Pekerjaan Karyawan")
-		fmt.Println("2. Lihat Rekap Pekerjaan per Tipe")
-		fmt.Println("3. Lihat Rekap Aktivitas Berdasarkan Durasi")
+		fmt.Println("1. Show Log Pekerjaan Karyawan (Status)")
+		fmt.Println("2. Show Rekap Pekerjaan per Tipe")
+		fmt.Println("3. Show Rekap Aktivitas by Durasi (Sorted)")
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
 		fmt.Scan(&choice)
+		if choice == 1 {
+			showLogKaryawan(T, nlog)
+		} else if choice == 2 {
+			showRekapTipe(T, nlog)
+		} else if choice == 3 {
+			// to showRekapDurasi
+		} else if choice == 0 {
+			mainMenu()
+		} else {
+			fmt.Println("Pilihan Invalid.")
+		}
 	}
 }
 
@@ -236,7 +243,7 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 func addPekerjaan(T *arrPekerjaan, nlog *int) {
 	var KaryawanID, Tipe, Durasi, Bulan, Tahun int
 
-	if *nlog >= NMAX {
+	if *nlog >= NMAXJob {
 		fmt.Println("Jumlah log pekerjaan mencapai batas.")
 		return
 	}
@@ -344,6 +351,7 @@ func showAllPekerjaan(T arrPekerjaan, nlog int) {
 	fmt.Println("======================================")
 }
 
+// FOR REKAP DATA
 // MELIHAT KETUNTASAN LOG PEKERJAAN KARYAWAN BERDASARKAN TANGGAL (BULAN & TAHUN)
 func showLogKaryawan(T arrPekerjaan, nlog int) {
 	var totalJam int = 160
@@ -375,10 +383,42 @@ func showLogKaryawan(T arrPekerjaan, nlog int) {
 	fmt.Printf("Tipe 3: %d jam\n", t3)
 
 	// Cek apakah ketentuan proporsi pekerjaan terpenuhi
-	if t1 >= totalJam*25/100 && t2 <= totalJam*50/100 &&
+	if t1 >= totalJam*25/100 && t1 <= totalJam*50/100 && t2 <= totalJam*50/100 &&
 		t2 >= totalJam*10/100 && t3 >= totalJam*10/100 {
 		fmt.Println("Karyawan memenuhi ketentuan proporsi pekerjaan.")
 	} else {
 		fmt.Println("Karyawan tidak memenuhi ketentuan proporsi pekerjaan.")
 	}
+}
+
+func showRekapTipe(T arrPekerjaan, nlog int) {
+	var Tipe, Bulan, Tahun, totalJam int
+	var found bool
+
+	fmt.Print("Masukkan Tipe Pekerjaan: ")
+	fmt.Scan(&Tipe)
+	fmt.Print("Masukkan Bulan (1-12): ")
+	fmt.Scan(&Bulan)
+	fmt.Print("Masukkan Tahun: ")
+	fmt.Scan(&Tahun)
+
+	fmt.Printf("Rekap Pekerjaan Tipe %d pada Bulan: %d Tahun: %d\n", Tipe, Bulan, Tahun)
+	fmt.Println("======================================")
+
+	for i := 0; i < nlog; i++ {
+		if T[i].Tipe == Tipe && T[i].Bulan == Bulan && T[i].Tahun == Tahun {
+			found = true
+			totalJam += T[i].Durasi
+			fmt.Printf("Karyawan ID: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Durasi)
+
+		}
+	}
+
+	if !found {
+		fmt.Println("Tidak ada pekerjaan untuk tipe ini pada bulan dan tahun tersebut.")
+	} else {
+		fmt.Printf("Total Durasi: %d jam\n", totalJam)
+	}
+	fmt.Println("======================================")
+
 }
