@@ -107,7 +107,8 @@ func menuLogPekerjaan() {
 		fmt.Println("1. Add Log Pekerjaan Karyawan")
 		fmt.Println("2. Update Log Pekerjaan Karyawan")
 		fmt.Println("3. Delete Log Pekerjaan Karyawan")
-		fmt.Println("4. Show Log Pekerjaan Karyawan")
+		fmt.Println("4. Show All Log Pekerjaan")
+		fmt.Println("5. Show Log Pekerjaan Karyawan (Status)")
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
@@ -121,6 +122,8 @@ func menuLogPekerjaan() {
 			deletePekerjaan(&T, &nlog)
 		} else if choice == 4 {
 			showAllPekerjaan(T, nlog)
+		} else if choice == 5 {
+			showLogKaryawan(T, nlog)
 		} else if choice == 0 {
 			break
 		} else {
@@ -339,4 +342,43 @@ func showAllPekerjaan(T arrPekerjaan, nlog int) {
 		}
 	}
 	fmt.Println("======================================")
+}
+
+// MELIHAT KETUNTASAN LOG PEKERJAAN KARYAWAN BERDASARKAN TANGGAL (BULAN & TAHUN)
+func showLogKaryawan(T arrPekerjaan, nlog int) {
+	var totalJam int = 160
+	var KaryawanID, Bulan, Tahun int
+	var t1, t2, t3 int
+
+	fmt.Print("Masukkan ID Karyawan: ")
+	fmt.Scan(&KaryawanID)
+	fmt.Print("Masukkan Bulan (1-12): ")
+	fmt.Scan(&Bulan)
+	fmt.Print("Masukkan Tahun: ")
+	fmt.Scan(&Tahun)
+
+	for i := 0; i < nlog; i++ {
+		if T[i].KaryawanID == KaryawanID && T[i].Bulan == Bulan && T[i].Tahun == Tahun {
+			if T[i].Tipe == 1 {
+				t1 += T[i].Durasi
+			} else if T[i].Tipe == 2 {
+				t2 += T[i].Durasi
+			} else if T[i].Tipe == 3 {
+				t3 += T[i].Durasi
+			}
+		}
+	}
+
+	fmt.Printf("Rekap Log Pekerjaan untuk Karyawan ID: %d pada Bulan: %d Tahun: %d\n", KaryawanID, Bulan, Tahun)
+	fmt.Printf("Tipe 1: %d jam\n", t1)
+	fmt.Printf("Tipe 2: %d jam\n", t2)
+	fmt.Printf("Tipe 3: %d jam\n", t3)
+
+	// Cek apakah ketentuan proporsi pekerjaan terpenuhi
+	if t1 >= totalJam*25/100 && t2 <= totalJam*50/100 &&
+		t2 >= totalJam*10/100 && t3 >= totalJam*10/100 {
+		fmt.Println("Karyawan memenuhi ketentuan proporsi pekerjaan.")
+	} else {
+		fmt.Println("Karyawan tidak memenuhi ketentuan proporsi pekerjaan.")
+	}
 }
