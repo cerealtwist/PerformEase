@@ -13,7 +13,7 @@ type Karyawan struct {
 }
 
 type Pekerjaan struct {
-	KaryawanID, Tipe, Durasi int
+	KaryawanID, Tipe, Durasi, Bulan, Tahun int
 }
 
 type arrKaryawan [NMAX]Karyawan
@@ -120,7 +120,7 @@ func menuLogPekerjaan() {
 		} else if choice == 3 {
 			deletePekerjaan(&T, &nlog)
 		} else if choice == 4 {
-			showLogPekerjaan(T, nlog)
+			showAllPekerjaan(T, nlog)
 		} else if choice == 0 {
 			break
 		} else {
@@ -231,7 +231,7 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 // BAGIAN CRUD KARYAWAN
 
 func addPekerjaan(T *arrPekerjaan, nlog *int) {
-	var KaryawanID, Tipe, Durasi int
+	var KaryawanID, Tipe, Durasi, Bulan, Tahun int
 
 	if *nlog >= NMAX {
 		fmt.Println("Jumlah log pekerjaan mencapai batas.")
@@ -251,30 +251,38 @@ func addPekerjaan(T *arrPekerjaan, nlog *int) {
 	fmt.Scan(&Tipe)
 	fmt.Print("Masukkan durasi pekerjaan (dalam jam): ")
 	fmt.Scan(&Durasi)
+	fmt.Print("Masukkan bulan pekerjaan (1-12): ")
+	fmt.Scan(&Bulan)
+	fmt.Print("Masukkan tahun pekerjaan: ")
+	fmt.Scan(&Tahun)
 
 	for i := 0; i < *nlog; i++ {
-		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe {
-			fmt.Println("Log pekerjaan untuk karyawan ini dan tipe ini sudah ada.")
+		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe && T[i].Bulan == Bulan && T[i].Tahun == Tahun {
+			fmt.Println("Log pekerjaan sudah ada.")
 			return
 		}
 	}
 
-	T[*nlog] = Pekerjaan{KaryawanID: KaryawanID, Tipe: Tipe, Durasi: Durasi}
+	T[*nlog] = Pekerjaan{KaryawanID: KaryawanID, Tipe: Tipe, Durasi: Durasi, Bulan: Bulan, Tahun: Tahun}
 	*nlog++
 	fmt.Println("Log pekerjaan berhasil ditambah.")
 
 }
 
 func updatePekerjaan(T *arrPekerjaan, nlog *int) {
-	var KaryawanID, Tipe, newDurasi int
+	var KaryawanID, Tipe, newDurasi, Bulan, Tahun int
 
 	fmt.Print("Masukkan ID Karyawan: ")
 	fmt.Scan(&KaryawanID)
 	fmt.Print("Masukkan tipe pekerjaan yang ingin diupdate: ")
 	fmt.Scan(&Tipe)
+	fmt.Print("Masukkan bulan pekerjaan (1-12): ")
+	fmt.Scan(&Bulan)
+	fmt.Print("Masukkan tahun pekerjaan: ")
+	fmt.Scan(&Tahun)
 
 	for i := 0; i < *nlog; i++ {
-		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe {
+		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe && T[i].Bulan == Bulan && T[i].Tahun == Tahun {
 			fmt.Print("Masukkan durasi baru (dalam jam): ")
 			fmt.Scan(&newDurasi)
 			T[i].Durasi = newDurasi
@@ -286,8 +294,8 @@ func updatePekerjaan(T *arrPekerjaan, nlog *int) {
 }
 
 func deletePekerjaan(T *arrPekerjaan, nlog *int) {
-	var KaryawanID, Tipe int
-	var foundIndex int = -1 // variabel utk simpan indeks log entry yang akan dihapus jika ditemukan
+	var KaryawanID, Tipe, Bulan, Tahun int
+	var idx int = -1 // variabel utk simpan indeks log entry yang akan dihapus jika ditemukan
 
 	// ARRAY -1 BERARTI INVALID INDEX (sifat array non-negative), BUAT MENGINDIKASIKAN NOT FOUND
 
@@ -295,16 +303,20 @@ func deletePekerjaan(T *arrPekerjaan, nlog *int) {
 	fmt.Scan(&KaryawanID)
 	fmt.Print("Enter work type to delete: ")
 	fmt.Scan(&Tipe)
+	fmt.Print("Masukkan bulan pekerjaan (1-12): ")
+	fmt.Scan(&Bulan)
+	fmt.Print("Masukkan tahun pekerjaan: ")
+	fmt.Scan(&Tahun)
 
-	for i := 0; i < *nlog && foundIndex == -1; i++ {
-		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe {
-			foundIndex = i // jika ditemukan, ubah index sesuai i array
+	for i := 0; i < *nlog && idx == -1; i++ {
+		if T[i].KaryawanID == KaryawanID && T[i].Tipe == Tipe && T[i].Bulan == Bulan && T[i].Tahun == Tahun {
+			idx = i // jika ditemukan, ubah index sesuai i array
 		}
 	}
 
-	if foundIndex != -1 { // jika foundindex bukan -1 (berarti ditemukan)
+	if idx != -1 { // jika idx bukan -1 (berarti ditemukan)
 		// geser array ke kiri utk overwrite array terhapus.
-		for j := foundIndex; j < *nlog-1; j++ {
+		for j := idx; j < *nlog-1; j++ {
 			T[j] = T[j+1]
 		}
 		*nlog--
@@ -314,7 +326,8 @@ func deletePekerjaan(T *arrPekerjaan, nlog *int) {
 	}
 }
 
-func showLogPekerjaan(T arrPekerjaan, nlog int) {
+// UNTUK MELIHAT SEMUA LOG PEKERJAAN (FOR TESTING)
+func showAllPekerjaan(T arrPekerjaan, nlog int) {
 	fmt.Println("\n======================================")
 	fmt.Println("List Log Pekerjaan:")
 	fmt.Println("======================================")
@@ -322,7 +335,7 @@ func showLogPekerjaan(T arrPekerjaan, nlog int) {
 		fmt.Println("Tidak ada log pekerjaan.")
 	} else {
 		for i := 0; i < nlog; i++ {
-			fmt.Printf("Karyawan ID: %d, Tipe: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Tipe, T[i].Durasi)
+			fmt.Printf("Karyawan ID: %d, Tipe: %d, Durasi: %d jam, Bulan: %d, Tahun: %d\n", T[i].KaryawanID, T[i].Tipe, T[i].Durasi, T[i].Bulan, T[i].Tahun)
 		}
 	}
 	fmt.Println("======================================")
