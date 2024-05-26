@@ -34,9 +34,9 @@ func main() {
 
 // Main Menu
 func mainMenu() {
-	var choice int = -1
+	var choice int
 
-	for choice == 0 {
+	for {
 		fmt.Println("\n======================================")
 		fmt.Println("Employee Performance Assesment")
 		fmt.Println("======================================")
@@ -55,6 +55,9 @@ func mainMenu() {
 			menuLogPekerjaan()
 		} else if choice == 3 {
 			menuRekap()
+		} else if choice == 0 {
+			fmt.Println("Exiting...")
+			return
 		} else {
 			fmt.Println("Pilihan Invalid.")
 		}
@@ -147,7 +150,7 @@ func menuRekap() {
 		} else if choice == 2 {
 			showRekapTipe(T, nlog)
 		} else if choice == 3 {
-			// to showRekapDurasi
+			showRekapDurasi(T, nlog)
 		} else if choice == 0 {
 			mainMenu()
 		} else {
@@ -421,4 +424,52 @@ func showRekapTipe(T arrPekerjaan, nlog int) {
 	}
 	fmt.Println("======================================")
 
+}
+
+func showRekapDurasi(T arrPekerjaan, nlog int) {
+	var Bulan, Tahun int
+
+	fmt.Print("Masukkan Bulan (1-12): ")
+	fmt.Scan(&Bulan)
+	fmt.Print("Masukkan Tahun: ")
+	fmt.Scan(&Tahun)
+
+	var pekerjaanCount int = 0
+
+	// Mengumpulkan data yang sesuai dengan bulan dan tahun yang diminta
+	for i := 0; i < nlog; i++ {
+		if T[i].Bulan == Bulan && T[i].Tahun == Tahun {
+			// Salin elemen yang sesuai ke bagian awal array
+			T[pekerjaanCount] = T[i]
+			pekerjaanCount++
+		}
+	}
+
+	// sort pekerjaan by durasi menggunakan selection sort
+	for pass := 0; pass < pekerjaanCount-1; pass++ {
+		maxIdx := pass
+		for i := pass + 1; i < pekerjaanCount; i++ {
+			if T[i].Durasi > T[maxIdx].Durasi {
+				maxIdx = i
+			}
+		}
+		// Pertukaran elemen
+		if maxIdx != pass {
+			temp := T[pass]
+			T[pass] = T[maxIdx]
+			T[maxIdx] = temp
+		}
+	}
+
+	fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d (Sorted by Durasi)\n", Bulan, Tahun)
+	fmt.Println("======================================")
+
+	if pekerjaanCount == 0 {
+		fmt.Println("Tidak ada aktivitas pekerjaan pada bulan dan tahun tersebut.")
+	} else {
+		for i := 0; i < pekerjaanCount; i++ {
+			fmt.Printf("Karyawan ID: %d, Tipe: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Tipe, T[i].Durasi)
+		}
+	}
+	fmt.Println("======================================")
 }
