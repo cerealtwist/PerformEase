@@ -159,6 +159,39 @@ func menuRekap() {
 	}
 }
 
+// Helper function untuk mencari indeks karyawan by ID (updated to Binary Search!)
+func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
+	left, right := 0, n-1
+	for left <= right {
+		mid := (left + right) / 2
+		if A[mid].ID == KaryawanID {
+			return true
+		} else if A[mid].ID < KaryawanID {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return false
+}
+
+// Helper function untuk sort array karyawan by ID
+func sortKaryawan(A *arrKaryawan, n int) {
+	for pass := 0; pass < n-1; pass++ {
+		idx := pass
+		for i := pass + 1; i < n; i++ {
+			if A[i].ID < A[idx].ID {
+				idx = i
+			}
+		}
+		if idx != pass {
+			temp := A[pass]
+			A[pass] = A[idx]
+			A[idx] = temp
+		}
+	}
+}
+
 // BAGIAN CRUD KARYAWAN
 
 func addKaryawan(A *arrKaryawan, n *int) {
@@ -174,6 +207,7 @@ func addKaryawan(A *arrKaryawan, n *int) {
 
 	A[*n] = Karyawan{ID: *n + 1, Nama: Nama}
 	*n++
+	sortKaryawan(A, *n) // Memastikan array terurut setelah penambahan
 	fmt.Println("Karyawan berhasil ditambah.")
 }
 
@@ -210,6 +244,7 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 				A[j].ID = j + 1
 			}
 			*n--
+			sortKaryawan(A, *n)
 			fmt.Println("Karyawan dihapus.")
 			return
 		}
@@ -229,39 +264,6 @@ func showListKaryawan(A arrKaryawan, n int) {
 		}
 	}
 	fmt.Println("======================================")
-}
-
-// Helper function untuk mencari indeks karyawan by ID (updated to Binary Search!)
-func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
-	left, right := 0, n-1
-	for left <= right {
-		mid := (left + right) / 2
-		if A[mid].ID == KaryawanID {
-			return true
-		} else if A[mid].ID < KaryawanID {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	return false
-}
-
-// Helper function untuk sort array karyawan by ID
-func sortKaryawan(A *arrKaryawan, n int) {
-	for pass := 0; pass < n-1; pass++ {
-		idx := pass
-		for i := pass + 1; i < n; i++ {
-			if A[i].ID < A[idx].ID {
-				idx = i
-			}
-		}
-		if idx != pass {
-			temp := A[pass]
-			A[pass] = A[idx]
-			A[idx] = temp
-		}
-	}
 }
 
 // BAGIAN CRUD KARYAWAN
