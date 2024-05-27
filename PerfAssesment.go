@@ -231,11 +231,17 @@ func showListKaryawan(A arrKaryawan, n int) {
 	fmt.Println("======================================")
 }
 
-// Helper function untuk cek apakah terdapat karyawan dengan id tertentu
+// Helper function untuk mencari indeks karyawan by ID (updated to Binary Search!)
 func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
-	for i := 0; i < n; i++ {
-		if A[i].ID == KaryawanID {
+	low, high := 0, n-1
+	for low <= high {
+		mid := (low + high) / 2
+		if A[mid].ID == KaryawanID {
 			return true
+		} else if A[mid].ID < KaryawanID {
+			low = mid + 1
+		} else {
+			high = mid - 1
 		}
 	}
 	return false
