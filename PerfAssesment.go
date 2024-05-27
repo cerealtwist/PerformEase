@@ -247,6 +247,23 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 	return false
 }
 
+// Helper function untuk sort array karyawan by ID
+func sortKaryawan(A *arrKaryawan, n int) {
+	for pass := 0; pass < n-1; pass++ {
+		idx := pass
+		for i := pass + 1; i < n; i++ {
+			if A[i].ID < A[idx].ID {
+				idx = i
+			}
+		}
+		if idx != pass {
+			temp := A[pass]
+			A[pass] = A[idx]
+			A[idx] = temp
+		}
+	}
+}
+
 // BAGIAN CRUD KARYAWAN
 
 func addPekerjaan(T *arrPekerjaan, nlog *int) {
