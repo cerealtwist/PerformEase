@@ -427,12 +427,14 @@ func showRekapTipe(T arrPekerjaan, nlog int) {
 }
 
 func showRekapDurasi(T arrPekerjaan, nlog int) {
-	var Bulan, Tahun int
+	var Bulan, Tahun, sortOrder int
 
 	fmt.Print("Masukkan Bulan (1-12): ")
 	fmt.Scan(&Bulan)
 	fmt.Print("Masukkan Tahun: ")
 	fmt.Scan(&Tahun)
+	fmt.Print("Pilih urutan pengurutan: 1 untuk Ascending, 2 untuk Descending: ")
+	fmt.Scan(&sortOrder)
 
 	var pekerjaanCount int = 0
 
@@ -447,21 +449,26 @@ func showRekapDurasi(T arrPekerjaan, nlog int) {
 
 	// sort pekerjaan by durasi menggunakan selection sort
 	for pass := 0; pass < pekerjaanCount-1; pass++ {
-		maxIdx := pass
+		idx := pass
 		for i := pass + 1; i < pekerjaanCount; i++ {
-			if T[i].Durasi > T[maxIdx].Durasi {
-				maxIdx = i
+			if (sortOrder == 1 && T[i].Durasi < T[idx].Durasi) || (sortOrder == 2 && T[i].Durasi > T[idx].Durasi) {
+				idx = i
 			}
 		}
 		// Pertukaran elemen
-		if maxIdx != pass {
+		if idx != pass {
 			temp := T[pass]
-			T[pass] = T[maxIdx]
-			T[maxIdx] = temp
+			T[pass] = T[idx]
+			T[idx] = temp
 		}
 	}
 
-	fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d (Sorted by Durasi)\n", Bulan, Tahun)
+	order := "Ascending"
+	if sortOrder == 2 {
+		order = "Descending"
+	}
+
+	fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d (Sorted by Durasi - %s)\n", Bulan, Tahun, order)
 	fmt.Println("======================================")
 
 	if pekerjaanCount == 0 {
