@@ -233,15 +233,15 @@ func showListKaryawan(A arrKaryawan, n int) {
 
 // Helper function untuk mencari indeks karyawan by ID (updated to Binary Search!)
 func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
-	low, high := 0, n-1
-	for low <= high {
-		mid := (low + high) / 2
+	left, right := 0, n-1
+	for left <= right {
+		mid := (left + right) / 2
 		if A[mid].ID == KaryawanID {
 			return true
 		} else if A[mid].ID < KaryawanID {
-			low = mid + 1
+			left = mid + 1
 		} else {
-			high = mid - 1
+			right = mid - 1
 		}
 	}
 	return false
