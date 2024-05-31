@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+/* --------------------- INISIALISASI TIPE DATA ---------------------  */
+// INGAT ARRAY TIDAK BOLEH DINAMIS //
 const NMAX int = 3
 const NMAXJob int = 1000 // blm pasti pake atau enggak, just keep it this way dulu dah
 const TotalJAM int = 160 // total jam kerja 160
@@ -20,20 +22,24 @@ type Pekerjaan struct {
 type arrKaryawan [NMAX]Karyawan
 type arrPekerjaan [NMAXJob]Pekerjaan
 
-// buat global scope agar saat keluar dari submenu tidak terinisialisasi ulang
+// Buat global scope agar saat keluar dari submenu tidak terinisialisasi ulang
 var A arrKaryawan
 var n int
 
 var T arrPekerjaan
 var nlog int
 
-// PROGRAM MAIN
+/* --------------------- PROGRAM MAIN ---------------------  */
 func main() {
 	mainMenu()
 }
 
+/* --------------------- BAGIAN MENU ---------------------  */
+
 // Main Menu
 func mainMenu() {
+	/* I.S: -
+	   F.S: Menampilkan Menu untuk memilih tiap Submenu. */
 	var choice int
 
 	for {
@@ -67,6 +73,8 @@ func mainMenu() {
 
 // Submenu Karyawan
 func menuKaryawan() {
+	/* I.S: -
+	   F.S: Menampilkan submenu untuk mengelola data karyawan. */
 	var choice int
 
 	for {
@@ -102,7 +110,10 @@ func menuKaryawan() {
 	}
 }
 
+// Submenu Log Pekerjaan
 func menuLogPekerjaan() {
+	/* I.S: -
+	   F.S: Menampilkan submenu untuk mengelola data log pekerjaan. */
 	var choice int
 
 	for {
@@ -134,7 +145,11 @@ func menuLogPekerjaan() {
 	}
 }
 
+
+// Submenu Rekap
 func menuRekap() {
+	/* I.S: -
+	   F.S: Menampilkan submenu untuk menampilkan rekap data. */
 	var choice int
 
 	for {
@@ -162,6 +177,11 @@ func menuRekap() {
 	}
 }
 
+/* --------------------- HELPER FUNCTION UNTUK KELOLA KARYAWAN, LOG PEKERJAAN, DAN REKAP ---------------------  */
+/* --------------------- 1. helper function findKaryawan menggunakan algoritma Binary Search ---------------------  */
+/* --------------------- 2. helper function insertionSortKaryawan menggunakan algoritma Insertion SORT ---------------------  */
+/* --------------------- 3. helper function selectionSortPekerjaan menggunakan algoritma Selection SORT ---------------------  */
+
 // Helper function untuk mencari indeks karyawan by ID (updated to Binary Search!)
 func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 	left, right := 0, n-1
@@ -179,7 +199,10 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 }
 
 // Helper function untuk melakukan insertion sort array karyawan by ID
+
 func insertionSortKaryawan(A *arrKaryawan, n int, sortOrder int) {
+	/* 	I.S: Terdefinisi pass dengan nilai 1, A berisi array karyawan yang akan diurutkan, n adalah jumlah karyawan, sortOrder menentukan urutan pengurutan (1 untuk Ascending, 2 untuk Descending).
+		F.S: Array A terurut berdasarkan ID karyawan sesuai dengan sortOrder yang ditentukan. */
 	for pass := 1; pass < n; pass++ {
 		i := pass
 		temp := A[pass]
@@ -192,9 +215,33 @@ func insertionSortKaryawan(A *arrKaryawan, n int, sortOrder int) {
 
 }
 
-// BAGIAN CRUD KARYAWAN
+// Fungsi untuk melakukan Selection Sort pada array pekerjaan
+func selectionSortPekerjaan(T *arrPekerjaan, n int, sortOrder int) {
+	/* 	I.S: Terdefinisi array T yang berisi log pekerjaan dengan panjang n.
+		F.S: Array T terurut berdasarkan durasi pekerjaan dengan urutan yang ditentukan (ascending/descending). */
+	for pass := 0; pass < n-1; pass++ {
+		idx := pass
+		for i := pass + 1; i < n; i++ {
+			if (sortOrder == 1 && T[i].Durasi < T[idx].Durasi) || (sortOrder == 2 && T[i].Durasi > T[idx].Durasi) {
+				idx = i
+			}
+		}
+		// Pertukaran elemen
+		if idx != pass {
+			temp := T[pass]
+			T[pass] = T[idx]
+			T[idx] = temp
+		}
+	}
+}
 
+/* --------------------- BAGIAN KELOLA DATA KARYAWAN (CRUD) ---------------------  */
+
+
+// Menambah data karyawan
 func addKaryawan(A *arrKaryawan, n *int) {
+	/* 	I.S: Terdefinisi array A yang berisi data karyawan dan n merupakan jumlah karyawan yang tersimpan.
+		F.S: Data karyawan baru berhasil ditambahkan ke dalam array A dan n terinkremen. */
 	var Nama string
 
 	if *n >= NMAX {
@@ -210,7 +257,10 @@ func addKaryawan(A *arrKaryawan, n *int) {
 	fmt.Println("Karyawan berhasil ditambah.")
 }
 
+// Mengubah data karyawan
 func updateKaryawan(A *arrKaryawan, n *int) {
+	/* 	I.S: Terdefinisi array A yang berisi data karyawan dan n merupakan jumlah karyawan yang tersimpan.
+		F.S: Data karyawan berhasil diupdate sesuai dengan ID yang dimasukkan pengguna. */
 	var ID int
 	var newNama string
 
@@ -229,7 +279,10 @@ func updateKaryawan(A *arrKaryawan, n *int) {
 	fmt.Println("Karyawan tidak ditemukan.")
 }
 
+// Menghapus data karyawan
 func deleteKaryawan(A *arrKaryawan, n *int) {
+	/* 	I.S: Terdefinisi array A yang berisi data karyawan dan n merupakan jumlah karyawan yang tersimpan.
+		F.S: Data karyawan berhasil dihapus berdasarkan ID yang dimasukkan pengguna. */
 	var ID int
 
 	fmt.Print("Masukkan ID karyawan:")
@@ -250,7 +303,11 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 	fmt.Println("Karyawan tidak ditemukan.")
 }
 
+
+// Menampilkan list seluruh karyawan (UNTUK KEPERLUAN TESTING SAJA)
 func showListKaryawan(A arrKaryawan, n int) {
+	/* 	I.S: Terdefinisi array A yang berisi data karyawan dan n merupakan jumlah karyawan yang tersimpan.
+		F.S: Menampilkan daftar karyawan yang tersimpan dalam array A. */
 	fmt.Println("\n======================================")
 	fmt.Println("List Karyawan:")
 	fmt.Println("======================================")
@@ -264,13 +321,17 @@ func showListKaryawan(A arrKaryawan, n int) {
 	fmt.Println("======================================")
 }
 
+
+// Menampilkan list karyawan terurut berdasarkan ID
 func showSortedKaryawanByID(A arrKaryawan, n int) {
+	/* 	I.S: Terdefinisi array A yang berisi data karyawan dan n merupakan jumlah karyawan yang tersimpan.
+		F.S: Menampilkan daftar karyawan yang terurut berdasarkan ID (ascending/descending) dari array A. */
 	var sortOrder int
 
 	fmt.Print("Pilih urutan pengurutan: 1 untuk Ascending, 2 untuk Descending: ")
 	fmt.Scan(&sortOrder)
 
-	// Melakukan pengurutan karyawan berdasarkan ID menggunakan insertion sort
+	// Melakukan pengurutan karyawan berdasarkan ID menggunakan insertion sort (Pemanggilan Helper Function)
 	insertionSortKaryawan(&A, n, sortOrder)
 
 	// Menampilkan karyawan terurut
@@ -287,9 +348,13 @@ func showSortedKaryawanByID(A arrKaryawan, n int) {
 	fmt.Println("======================================")
 }
 
-// BAGIAN CRUD KARYAWAN
+/* --------------------- BAGIAN KELOLA DATA LOG PEKERJAAN (CRUD) ---------------------  */
 
+
+// Menambah data log pekerjaan
 func addPekerjaan(T *arrPekerjaan, nlog *int) {
+	/* 	I.S: Terdefinisi array T yang berisi log pekerjaan dan nlog merupakan jumlah log pekerjaan yang tersimpan.
+		F.S: Log pekerjaan baru berhasil ditambahkan ke dalam array T dan nlog terinkremen. */
 	var KaryawanID, Tipe, Durasi, Bulan, Tahun int
 
 	if *nlog >= NMAXJob {
@@ -328,7 +393,11 @@ func addPekerjaan(T *arrPekerjaan, nlog *int) {
 
 }
 
+
+// Mengubah data log pekerjaan
 func updatePekerjaan(T *arrPekerjaan, nlog *int) {
+	/* 	I.S: Terdefinisi array T yang berisi log pekerjaan dan nlog merupakan jumlah log pekerjaan yang tersimpan.
+		F.S: Durasi log pekerjaan berhasil diupdate sesuai dengan kriteria yang dimasukkan pengguna. */
 	var KaryawanID, Tipe, newDurasi, Bulan, Tahun int
 
 	fmt.Print("Masukkan ID Karyawan: ")
@@ -352,7 +421,11 @@ func updatePekerjaan(T *arrPekerjaan, nlog *int) {
 	fmt.Println("Log pekerjaan tidak ditemukan.")
 }
 
+
+// Menghapus data log pekerjaan
 func deletePekerjaan(T *arrPekerjaan, nlog *int) {
+	/* 	I.S: Terdefinisi array T yang berisi log pekerjaan dan nlog merupakan jumlah log pekerjaan yang tersimpan.
+		F.S: Log pekerjaan berhasil dihapus berdasarkan kriteria yang dimasukkan pengguna. */
 	var KaryawanID, Tipe, Bulan, Tahun int
 	var idx int = -1 // variabel utk simpan indeks log entry yang akan dihapus jika ditemukan
 
@@ -387,6 +460,8 @@ func deletePekerjaan(T *arrPekerjaan, nlog *int) {
 
 // UNTUK MELIHAT SEMUA LOG PEKERJAAN (FOR TESTING)
 func showAllPekerjaan(T arrPekerjaan, nlog int) {
+	/* 	I.S: Terdapat array T yang berisi log pekerjaan dan nlog merupakan jumlah log yang tersimpan.
+	   	F.S: Menampilkan seluruh log pekerjaan yang tersimpan dalam array T. */
 	fmt.Println("\n======================================")
 	fmt.Println("List Log Pekerjaan:")
 	fmt.Println("======================================")
@@ -400,27 +475,13 @@ func showAllPekerjaan(T arrPekerjaan, nlog int) {
 	fmt.Println("======================================")
 }
 
-// FOR REKAP DATA
-// Fungsi untuk melakukan Selection Sort pada array pekerjaan
-func selectionSortPekerjaan(T *arrPekerjaan, n int, sortOrder int) {
-	for pass := 0; pass < n-1; pass++ {
-		idx := pass
-		for i := pass + 1; i < n; i++ {
-			if (sortOrder == 1 && T[i].Durasi < T[idx].Durasi) || (sortOrder == 2 && T[i].Durasi > T[idx].Durasi) {
-				idx = i
-			}
-		}
-		// Pertukaran elemen
-		if idx != pass {
-			temp := T[pass]
-			T[pass] = T[idx]
-			T[idx] = temp
-		}
-	}
-}
+/* --------------------- BAGIAN TAMPILAN REKAP DATA ---------------------  */
+
 
 // MELIHAT KETUNTASAN LOG PEKERJAAN KARYAWAN BERDASARKAN TANGGAL (BULAN & TAHUN)
 func showLogKaryawan(T arrPekerjaan, nlog int) {
+	/* 	I.S: Terdefinisi array T yang berisi log pekerjaan, nlog merupakan jumlah log pekerjaan yang tersimpan,dan karyawanID merupakan ID karyawan yang ingin ditampilkan log pekerjaannya.
+		F.S: Menampilkan log pekerjaan karyawan berdasarkan ID karyawan. */
 	var KaryawanID, Bulan, Tahun int
 	var t1, t2, t3, totalWorktime int
 	var found bool
@@ -466,6 +527,8 @@ func showLogKaryawan(T arrPekerjaan, nlog int) {
 }
 
 func showRekapTipe(T arrPekerjaan, nlog int) {
+	/* 	I.S: Terdefinisi array T yang berisi log pekerjaan dan nlog merupakan jumlah log pekerjaan yang tersimpan.
+	   	F.S: Menampilkan rekapitulasi log pekerjaan berdasarkan tipe pekerjaan. */
 	var Tipe, Bulan, Tahun, totalJam int
 	var found bool
 
@@ -498,7 +561,9 @@ func showRekapTipe(T arrPekerjaan, nlog int) {
 }
 
 func showRekapDurasi(T arrPekerjaan, nlog int) {
-	var Bulan, Tahun, sortOrder, Tipe, pekerjaanCount int
+	/* 	I.S: Terdefinisi array T yang berisi log pekerjaan dan nlog merupakan jumlah log pekerjaan yang tersimpan.
+		F.S: Menampilkan rekapitulasi log pekerjaan berdasarkan durasi pekerjaan. */
+	var Bulan, Tahun, sortOrder, Tipe, pekerjaanIdx int
 
 	fmt.Print("Masukkan Bulan (1-12): ")
 	fmt.Scan(&Bulan)
@@ -509,19 +574,17 @@ func showRekapDurasi(T arrPekerjaan, nlog int) {
 	fmt.Print("Pilih urutan pengurutan: 1 untuk Ascending, 2 untuk Descending: ")
 	fmt.Scan(&sortOrder)
 
-	var pekerjaanCount int = 0
-
 	// Mengumpulkan data yang sesuai dengan bulan, tahun, dan tipe yang diminta
 	for i := 0; i < nlog; i++ {
 		if T[i].Bulan == Bulan && T[i].Tahun == Tahun && T[i].Tipe == Tipe {
 			// Salin elemen yang sesuai ke bagian awal array
-			T[pekerjaanCount] = T[i]
-			pekerjaanCount++
+			T[pekerjaanIdx] = T[i]
+			pekerjaanIdx++
 		}
 	}
 
 	// Mengurutkan data pekerjaan dengan Selection Sort
-	selectionSortPekerjaan(&T, pekerjaanCount, sortOrder)
+	selectionSortPekerjaan(&T, pekerjaanIdx, sortOrder)
 
 	order := "Ascending"
 	if sortOrder == 2 {
@@ -531,10 +594,10 @@ func showRekapDurasi(T arrPekerjaan, nlog int) {
 	fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d dan Tipe Pekerjaan: %d (Sorted by Durasi - %s)\n", Bulan, Tahun, Tipe, order)
 	fmt.Println("======================================")
 
-	if pekerjaanCount == 0 {
+	if pekerjaanIdx == 0 {
 		fmt.Println("Tidak ada aktivitas pekerjaan pada bulan, tahun, dan tipe pekerjaan tersebut.")
 	} else {
-		for i := 0; i < pekerjaanCount; i++ {
+		for i := 0; i < pekerjaanIdx; i++ {
 			fmt.Printf("Karyawan ID: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Durasi)
 		}
 	}
