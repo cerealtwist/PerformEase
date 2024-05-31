@@ -422,7 +422,8 @@ func selectionSortPekerjaan(T *arrPekerjaan, n int, sortOrder int) {
 // MELIHAT KETUNTASAN LOG PEKERJAAN KARYAWAN BERDASARKAN TANGGAL (BULAN & TAHUN)
 func showLogKaryawan(T arrPekerjaan, nlog int) {
 	var KaryawanID, Bulan, Tahun int
-	var t1, t2, t3 int
+	var t1, t2, t3, totalWorktime int
+	var found bool
 
 	fmt.Print("Masukkan ID Karyawan: ")
 	fmt.Scan(&KaryawanID)
@@ -440,20 +441,26 @@ func showLogKaryawan(T arrPekerjaan, nlog int) {
 			} else if T[i].Tipe == 3 {
 				t3 += T[i].Durasi
 			}
+			totalWorktime += T[i].Durasi // Menghitung total jam kerja tiap karyawan
+			found = true
 		}
 	}
 
-	fmt.Printf("Rekap Log Pekerjaan untuk Karyawan ID: %d pada Bulan: %d Tahun: %d\n", KaryawanID, Bulan, Tahun)
-	fmt.Printf("Tipe 1: %d jam\n", t1)
-	fmt.Printf("Tipe 2: %d jam\n", t2)
-	fmt.Printf("Tipe 3: %d jam\n", t3)
-
-	// Cek apakah ketentuan proporsi pekerjaan terpenuhi
-	if t1 >= TotalJAM*25/100 && t1 <= TotalJAM*50/100 && t2 <= TotalJAM*50/100 &&
-		t2 >= TotalJAM*10/100 && t3 >= TotalJAM*10/100 {
-		fmt.Println("Karyawan memenuhi ketentuan proporsi pekerjaan.")
+	if found {
+		fmt.Printf("Rekap Log Pekerjaan untuk Karyawan ID: %d pada Bulan: %d Tahun: %d\n", KaryawanID, Bulan, Tahun)
+		fmt.Printf("Tipe 1: %d jam\n", t1)
+		fmt.Printf("Tipe 2: %d jam\n", t2)
+		fmt.Printf("Tipe 3: %d jam\n", t3)
+		fmt.Printf("Total Jam Kerja: %d jam\n", totalWorktime) // Menampilkan total jam kerja tiap karyawan
+		// Cek apakah ketentuan proporsi pekerjaan terpenuhi
+		if t1 >= TotalJAM*25/100 && t1 <= TotalJAM*50/100 && t2 <= TotalJAM*50/100 &&
+			t2 >= TotalJAM*10/100 && t3 >= TotalJAM*10/100 {
+			fmt.Println("Karyawan memenuhi ketentuan proporsi pekerjaan.")
+		} else {
+			fmt.Println("Karyawan tidak memenuhi ketentuan proporsi pekerjaan.")
+		}
 	} else {
-		fmt.Println("Karyawan tidak memenuhi ketentuan proporsi pekerjaan.")
+		fmt.Println("Rekap log pekerjaan tidak ditemukan.")
 	}
 	fmt.Println("======================================")
 }
