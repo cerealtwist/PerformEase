@@ -175,21 +175,18 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 	return false
 }
 
-// Helper function untuk sort array karyawan by ID
-func sortKaryawan(A *arrKaryawan, n int) {
-	for pass := 0; pass < n-1; pass++ {
-		idx := pass
-		for i := pass + 1; i < n; i++ {
-			if A[i].ID < A[idx].ID {
-				idx = i
-			}
+// Helper function untuk melakukan insertion sort array karyawan by ID
+func insertionSortKaryawan(A *arrKaryawan, n int) {
+	for pass := 1; pass < n; pass++ {
+		i := pass
+		temp := A[pass]
+		for i > 0 && ((sortOrder == 1 && temp.ID < A[i-1].ID) || (sortOrder == 2 && temp.ID > A[i-1].ID)) {
+			A[i] = A[i-1]
+			i--
 		}
-		if idx != pass {
-			temp := A[pass]
-			A[pass] = A[idx]
-			A[idx] = temp
-		}
+		A[i] = temp
 	}
+
 }
 
 // BAGIAN CRUD KARYAWAN
@@ -207,7 +204,6 @@ func addKaryawan(A *arrKaryawan, n *int) {
 
 	A[*n] = Karyawan{ID: *n + 1, Nama: Nama}
 	*n++
-	sortKaryawan(A, *n) // Memastikan array terurut setelah penambahan
 	fmt.Println("Karyawan berhasil ditambah.")
 }
 
@@ -244,7 +240,6 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 				A[j].ID = j + 1
 			}
 			*n--
-			sortKaryawan(A, *n)
 			fmt.Println("Karyawan dihapus.")
 			return
 		}
@@ -381,21 +376,21 @@ func showAllPekerjaan(T arrPekerjaan, nlog int) {
 
 // FOR REKAP DATA
 // Fungsi untuk melakukan Selection Sort pada array pekerjaan
-func selectionSort(T *arrPekerjaan, n int, sortOrder int) {
-    for pass := 0; pass < n-1; pass++ {
-        idx := pass
-        for i := pass + 1; i < n; i++ {
-            if (sortOrder == 1 && T[i].Durasi < T[idx].Durasi) || (sortOrder == 2 && T[i].Durasi > T[idx].Durasi) {
-                idx = i
-            }
-        }
-        // Pertukaran elemen
-        if idx != pass {
-            temp := T[pass]
-            T[pass] = T[idx]
-            T[idx] = temp
-        }
-    }
+func selectionSortPekerjaan(T *arrPekerjaan, n int, sortOrder int) {
+	for pass := 0; pass < n-1; pass++ {
+		idx := pass
+		for i := pass + 1; i < n; i++ {
+			if (sortOrder == 1 && T[i].Durasi < T[idx].Durasi) || (sortOrder == 2 && T[i].Durasi > T[idx].Durasi) {
+				idx = i
+			}
+		}
+		// Pertukaran elemen
+		if idx != pass {
+			temp := T[pass]
+			T[pass] = T[idx]
+			T[idx] = temp
+		}
+	}
 }
 
 // MELIHAT KETUNTASAN LOG PEKERJAAN KARYAWAN BERDASARKAN TANGGAL (BULAN & TAHUN)
@@ -470,43 +465,43 @@ func showRekapTipe(T arrPekerjaan, nlog int) {
 }
 
 func showRekapDurasi(T arrPekerjaan, nlog int) {
-    var Bulan, Tahun, sortOrder int
+	var Bulan, Tahun, sortOrder int
 
-    fmt.Print("Masukkan Bulan (1-12): ")
-    fmt.Scan(&Bulan)
-    fmt.Print("Masukkan Tahun: ")
-    fmt.Scan(&Tahun)
-    fmt.Print("Pilih urutan pengurutan: 1 untuk Ascending, 2 untuk Descending: ")
-    fmt.Scan(&sortOrder)
+	fmt.Print("Masukkan Bulan (1-12): ")
+	fmt.Scan(&Bulan)
+	fmt.Print("Masukkan Tahun: ")
+	fmt.Scan(&Tahun)
+	fmt.Print("Pilih urutan pengurutan: 1 untuk Ascending, 2 untuk Descending: ")
+	fmt.Scan(&sortOrder)
 
-    var pekerjaanCount int = 0
+	var pekerjaanCount int = 0
 
-    // Mengumpulkan data yang sesuai dengan bulan dan tahun yang diminta
-    for i := 0; i < nlog; i++ {
-        if T[i].Bulan == Bulan && T[i].Tahun == Tahun {
-            // Salin elemen yang sesuai ke bagian awal array
-            T[pekerjaanCount] = T[i]
-            pekerjaanCount++
-        }
-    }
+	// Mengumpulkan data yang sesuai dengan bulan dan tahun yang diminta
+	for i := 0; i < nlog; i++ {
+		if T[i].Bulan == Bulan && T[i].Tahun == Tahun {
+			// Salin elemen yang sesuai ke bagian awal array
+			T[pekerjaanCount] = T[i]
+			pekerjaanCount++
+		}
+	}
 
-    // Mengurutkan data pekerjaan dengan Selection Sort
-    selectionSort(&T, pekerjaanCount, sortOrder)
+	// Mengurutkan data pekerjaan dengan Selection Sort
+	selectionSortPekerjaan(&T, pekerjaanCount, sortOrder)
 
-    order := "Ascending"
-    if sortOrder == 2 {
-        order = "Descending"
-    }
+	order := "Ascending"
+	if sortOrder == 2 {
+		order = "Descending"
+	}
 
-    fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d (Sorted by Durasi - %s)\n", Bulan, Tahun, order)
-    fmt.Println("======================================")
+	fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d (Sorted by Durasi - %s)\n", Bulan, Tahun, order)
+	fmt.Println("======================================")
 
-    if pekerjaanCount == 0 {
-        fmt.Println("Tidak ada aktivitas pekerjaan pada bulan dan tahun tersebut.")
-    } else {
-        for i := 0; i < pekerjaanCount; i++ {
-            fmt.Printf("Karyawan ID: %d, Tipe: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Tipe, T[i].Durasi)
-        }
-    }
-    fmt.Println("======================================")
+	if pekerjaanCount == 0 {
+		fmt.Println("Tidak ada aktivitas pekerjaan pada bulan dan tahun tersebut.")
+	} else {
+		for i := 0; i < pekerjaanCount; i++ {
+			fmt.Printf("Karyawan ID: %d, Tipe: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Tipe, T[i].Durasi)
+		}
+	}
+	fmt.Println("======================================")
 }
