@@ -380,6 +380,24 @@ func showAllPekerjaan(T arrPekerjaan, nlog int) {
 }
 
 // FOR REKAP DATA
+// Fungsi untuk melakukan Selection Sort pada array pekerjaan
+func selectionSort(T *arrPekerjaan, n int, sortOrder int) {
+    for pass := 0; pass < n-1; pass++ {
+        idx := pass
+        for i := pass + 1; i < n; i++ {
+            if (sortOrder == 1 && T[i].Durasi < T[idx].Durasi) || (sortOrder == 2 && T[i].Durasi > T[idx].Durasi) {
+                idx = i
+            }
+        }
+        // Pertukaran elemen
+        if idx != pass {
+            temp := T[pass]
+            T[pass] = T[idx]
+            T[idx] = temp
+        }
+    }
+}
+
 // MELIHAT KETUNTASAN LOG PEKERJAAN KARYAWAN BERDASARKAN TANGGAL (BULAN & TAHUN)
 func showLogKaryawan(T arrPekerjaan, nlog int) {
 	var totalJam int = 160
