@@ -76,7 +76,8 @@ func menuKaryawan() {
 		fmt.Println("1. Add Data Karyawan")
 		fmt.Println("2. Update Data Karyawan")
 		fmt.Println("3. Delete Data Karyawan")
-		fmt.Println("4. Show List Karyawan") // Buat testing aja ngecek apakah data karyawan masuk
+		fmt.Println("4. Show List Karyawan")
+		fmt.Println("5. Show List Karyawan (Sorted by ID)") // Buat testing aja ngecek apakah data karyawan masuk
 		fmt.Println("0. Main Menu")
 		fmt.Println("======================================")
 
@@ -90,6 +91,8 @@ func menuKaryawan() {
 			deleteKaryawan(&A, &n)
 		} else if choice == 4 {
 			showListKaryawan(A, n)
+		} else if choice == 5 {
+			showSortedKaryawanByID(A, n)
 		} else if choice == 0 {
 			mainMenu()
 		} else {
@@ -176,7 +179,7 @@ func findKaryawan(A arrKaryawan, n int, KaryawanID int) bool {
 }
 
 // Helper function untuk melakukan insertion sort array karyawan by ID
-func insertionSortKaryawan(A *arrKaryawan, n int) {
+func insertionSortKaryawan(A *arrKaryawan, n int, sortOrder int) {
 	for pass := 1; pass < n; pass++ {
 		i := pass
 		temp := A[pass]
@@ -250,6 +253,29 @@ func deleteKaryawan(A *arrKaryawan, n *int) {
 func showListKaryawan(A arrKaryawan, n int) {
 	fmt.Println("\n======================================")
 	fmt.Println("List Karyawan:")
+	fmt.Println("======================================")
+	if n == 0 {
+		fmt.Println("Tidak ada karyawan.")
+	} else {
+		for i := 0; i < n; i++ {
+			fmt.Printf("ID: %d, Nama: %s\n", A[i].ID, A[i].Nama)
+		}
+	}
+	fmt.Println("======================================")
+}
+
+func showSortedKaryawanByID(A arrKaryawan, n int) {
+	var sortOrder int
+
+	fmt.Print("Pilih urutan pengurutan: 1 untuk Ascending, 2 untuk Descending: ")
+	fmt.Scan(&sortOrder)
+
+	// Melakukan pengurutan karyawan berdasarkan ID menggunakan insertion sort
+	insertionSortKaryawan(&A, n, sortOrder)
+
+	// Menampilkan karyawan terurut
+	fmt.Println("\n======================================")
+	fmt.Println("List Karyawan (Sorted by ID):")
 	fmt.Println("======================================")
 	if n == 0 {
 		fmt.Println("Tidak ada karyawan.")
@@ -395,7 +421,6 @@ func selectionSortPekerjaan(T *arrPekerjaan, n int, sortOrder int) {
 
 // MELIHAT KETUNTASAN LOG PEKERJAAN KARYAWAN BERDASARKAN TANGGAL (BULAN & TAHUN)
 func showLogKaryawan(T arrPekerjaan, nlog int) {
-	var totalJam int = 160
 	var KaryawanID, Bulan, Tahun int
 	var t1, t2, t3 int
 
@@ -424,12 +449,13 @@ func showLogKaryawan(T arrPekerjaan, nlog int) {
 	fmt.Printf("Tipe 3: %d jam\n", t3)
 
 	// Cek apakah ketentuan proporsi pekerjaan terpenuhi
-	if t1 >= totalJam*25/100 && t1 <= totalJam*50/100 && t2 <= totalJam*50/100 &&
-		t2 >= totalJam*10/100 && t3 >= totalJam*10/100 {
+	if t1 >= TotalJAM*25/100 && t1 <= TotalJAM*50/100 && t2 <= TotalJAM*50/100 &&
+		t2 >= TotalJAM*10/100 && t3 >= TotalJAM*10/100 {
 		fmt.Println("Karyawan memenuhi ketentuan proporsi pekerjaan.")
 	} else {
 		fmt.Println("Karyawan tidak memenuhi ketentuan proporsi pekerjaan.")
 	}
+	fmt.Println("======================================")
 }
 
 func showRekapTipe(T arrPekerjaan, nlog int) {
