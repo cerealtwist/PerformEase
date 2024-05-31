@@ -491,20 +491,22 @@ func showRekapTipe(T arrPekerjaan, nlog int) {
 }
 
 func showRekapDurasi(T arrPekerjaan, nlog int) {
-	var Bulan, Tahun, sortOrder int
+	var Bulan, Tahun, sortOrder, Tipe, pekerjaanCount int
 
 	fmt.Print("Masukkan Bulan (1-12): ")
 	fmt.Scan(&Bulan)
 	fmt.Print("Masukkan Tahun: ")
 	fmt.Scan(&Tahun)
+	fmt.Print("Masukkan Tipe Pekerjaan: ")
+	fmt.Scan(&Tipe)
 	fmt.Print("Pilih urutan pengurutan: 1 untuk Ascending, 2 untuk Descending: ")
 	fmt.Scan(&sortOrder)
 
 	var pekerjaanCount int = 0
 
-	// Mengumpulkan data yang sesuai dengan bulan dan tahun yang diminta
+	// Mengumpulkan data yang sesuai dengan bulan, tahun, dan tipe yang diminta
 	for i := 0; i < nlog; i++ {
-		if T[i].Bulan == Bulan && T[i].Tahun == Tahun {
+		if T[i].Bulan == Bulan && T[i].Tahun == Tahun && T[i].Tipe == Tipe {
 			// Salin elemen yang sesuai ke bagian awal array
 			T[pekerjaanCount] = T[i]
 			pekerjaanCount++
@@ -519,14 +521,14 @@ func showRekapDurasi(T arrPekerjaan, nlog int) {
 		order = "Descending"
 	}
 
-	fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d (Sorted by Durasi - %s)\n", Bulan, Tahun, order)
+	fmt.Printf("Rekap Aktivitas Pekerjaan pada Bulan: %d Tahun: %d dan Tipe Pekerjaan: %d (Sorted by Durasi - %s)\n", Bulan, Tahun, Tipe, order)
 	fmt.Println("======================================")
 
 	if pekerjaanCount == 0 {
-		fmt.Println("Tidak ada aktivitas pekerjaan pada bulan dan tahun tersebut.")
+		fmt.Println("Tidak ada aktivitas pekerjaan pada bulan, tahun, dan tipe pekerjaan tersebut.")
 	} else {
 		for i := 0; i < pekerjaanCount; i++ {
-			fmt.Printf("Karyawan ID: %d, Tipe: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Tipe, T[i].Durasi)
+			fmt.Printf("Karyawan ID: %d, Durasi: %d jam\n", T[i].KaryawanID, T[i].Durasi)
 		}
 	}
 	fmt.Println("======================================")
