@@ -1,0 +1,86 @@
+(K12 - Farand Diy Dat Mahazalfaa - 103052300050 - DS4702) TUBES ALPRO CLO-4
+
+-----EMPLOYEE PERFORMANCE ASSESMENT PROGRAM-----
+
+Program ini digunakan untuk mengelola data karyawan dan log pekerjaan, serta menampilkan rekap data karyawan berdasarkan pekerjaan yang dilakukan. Berikut adalah instruksi dari penggunaan aplikasi:
+
+**--NOTE--**
+
+Akan ada inputan berupa bulan dan tahun, yang akan diterima dengan format:
+| 1-12 (UNTUK BULAN) |
+| Numerik/Integer (UNTUK TAHUN) |
+
+Kemudian untuk pilihan Tipe dengan format:
+| 1-3 (UNTUK PEKERJAAN TIPE 1, 2, DAN 3) |
+
+**--ENDNOTE--**
+
+1. |RUNNING PROGRAM|
+- Jalankan program dengan perintah "go run PerfAssesment.go" tanpa tanda kutip.
+
+
+2. |MAIN MENU|
+- Setelah program berjalan, akan tampil Main Menu dengan beberapa pilihan:
+
+	(1) Kelola Data Karyawan |Ke Poin 3|
+	(2) Kelola Log Pekerjaan Karyawan |Ke Poin 4|
+	(3) Lihat Rekap Data |Ke Poin 5|
+	(0) Exit
+
+- Masukkan nomor menu yang ingin dipilih dan tekan `Enter`.
+
+
+3. |SUBMENU KELOLA DATA KARYAWAN|
+Menu ini digunakan untuk mengelola data karyawan. Pilihan submenu yang tersedia adalah:
+
+	(1) Add Data Karyawan |Ke Poin 3.1|
+	(2) Update Data Karyawan |Ke Poin 3.2|
+	(3) Delete Data Karyawan |Ke Poin 3.3|
+	(4) Show List Karyawan *UNTUK KEPERLUAN TESTING* |Ke Poin 3.4|
+	(5) Show List Karyawan (Sorted by ID) |Ke Poin 3.5|
+	(0) Main Menu
+
+	3.1 **Add Data Karyawan**: Menambahkan data karyawan baru.
+	3.2 **Update Data Karyawan**: Memperbarui data karyawan yang sudah ada.
+	3.3 **Delete Data Karyawan**: Menghapus data karyawan berdasarkan ID.
+	3.4 **Show List Karyawan**: (UNTUK TESTING JADI SEMUA DATA AKAN TAMPIL)
+	3.5 **Show List Karyawan (Sorted by ID)**: Menampilkan daftar karyawan urut by ID.
+	0. **Main Menu**: Kembali ke menu utama.
+
+
+4. |SUBMENU KELOLA LOG PEKERJAAN|
+Menu ini digunakan untuk mengelola data log pekerjaan. Pilihan submenu yang tersedia adalah:
+
+	(1) Add Log Pekerjaan Karyawan |Ke Poin 4.1|
+	(2) Update Log Pekerjaan Karyawan |Ke Poin 4.2|
+	(3) Delete Log Pekerjaan Karyawan |Ke Poin 4.3|
+	(4) Show All Log Pekerjaan *UNTUK KEPERLUAN TESTING* |Ke Poin 4.4|
+	(0) Main Menu
+
+	4.1 **Add Log Pekerjaan Karyawan**: Menambahkan log pekerjaan baru untuk karyawan.
+	4.2 **Update Log Pekerjaan Karyawan**: Memperbarui log pekerjaan yang sudah ada.
+	4.3 **Delete Log Pekerjaan Karyawan**: Menghapus log pekerjaan berdasarkan kriteria tertentu.
+	4.4 **Show All Log Pekerjaan**: (UNTUK TESTING JADI SEMUA DATA AKAN TAMPIL)
+	0. **Main Menu**: Kembali ke menu utama.
+
+
+5. |SUBMENU LIHAT REKAP DATA|
+Menu ini digunakan untuk melihat rekap log pekerjaan. Pilihan submenu yang tersedia adalah:
+
+	(1) Show Log Pekerjaan Karyawan (Status) |Ke Poin 5.1|
+	(2) Show Rekap Pekerjaan per Tipe |Ke Poin 5.2|
+	(3) Show Rekap Aktivitas by Durasi |Ke Poin 5.3|
+	(0) Main Menu
+
+	4.1 **Show Log Pekerjaan Karyawan (Status)**: Menampilkan log pekerjaan karyawan berdasarkan ID, bulan, dan tahun.
+	4.2 **Show Rekap Pekerjaan per Tipe**: Menampilkan rekap pekerjaan berdasarkan tipe pekerjaan, bulan, dan tahun.
+	4.3 **Show Rekap Aktivitas by Durasi (Sorted)**: Menampilkan rekap aktivitas pekerjaan yang diurutkan berdasarkan durasi pekerjaan.
+	0. **Main Menu**: Kembali ke menu utama.
+
+6. |EXIT PROGRAM|
+Untuk keluar dari program, pilih menu `0. Exit` dari menu Utama (LIHAT POIN 2).
+
+
+P.S: Pastikan inputan data benar dan sesuai format yang diminta!
+
+Selamat menggunakan program ini dan terima kasih!

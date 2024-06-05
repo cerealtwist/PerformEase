@@ -22,7 +22,6 @@ type Pekerjaan struct {
 type arrKaryawan [NMAX]Karyawan
 type arrPekerjaan [NMAXJob]Pekerjaan
 
-// Buat global scope agar saat keluar dari submenu tidak terinisialisasi ulang
 var A arrKaryawan
 var n int
 
@@ -259,6 +258,8 @@ func addKaryawan(A *arrKaryawan, n *int) {
 func updateKaryawan(A *arrKaryawan, n *int) {
 	/* 	I.S: Terdefinisi array A yang berisi data karyawan dan n merupakan jumlah karyawan.
 	F.S: Memperbarui data karyawan yang ada berdasarkan ID yang dimasukkan. */
+
+	//SEQUENTIAL SEARCH
 
 	var id int
 	fmt.Print("Enter ID Karyawan yang akan diupdate: ")
